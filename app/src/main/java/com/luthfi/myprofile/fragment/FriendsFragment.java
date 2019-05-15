@@ -58,7 +58,7 @@ public class FriendsFragment extends Fragment implements FriendsView {
         super.onActivityCreated(savedInstanceState);
 
         friends = new ArrayList<>();
-        adapter = new FriendsAdapter(friends, getContext());
+        adapter = new FriendsAdapter(friends);
 
         presenter = new FriendsPresenter(this);
         presenter.setFriendsList();
