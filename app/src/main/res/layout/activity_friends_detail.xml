@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ProfileFragment">
+    tools:context=".activity.FriendsDetailActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbarContact"
+            android:id="@+id/toolbarDetail"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_alignParentTop="true"
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:popupTheme="@style/AppTheme.AppBarOverlay">
+            android:theme="@style/AppTheme.AppBarOverlay">
 
             <TextView
                 android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:id="@+id/imgFriendAva"
             android:layout_width="140dp"
             android:layout_height="140dp"
-            android:layout_below="@id/toolbarContact"
+            android:layout_below="@id/toolbarDetail"
             android:layout_margin="20dp"
             tools:src="@drawable/ava1"
             android:layout_centerHorizontal="true"

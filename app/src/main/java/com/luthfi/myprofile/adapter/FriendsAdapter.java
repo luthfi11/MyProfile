@@ -29,6 +29,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     public void setData(ArrayList<FriendsModel> items) {
         this.friends = items;
+        notifyDataSetChanged();
     }
 
     @NonNull

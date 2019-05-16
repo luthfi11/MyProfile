@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,12 +15,14 @@ import com.luthfi.myprofile.model.FriendsModel;
 import com.luthfi.myprofile.presenter.FriendsDetailPresenter;
 import com.luthfi.myprofile.view.FriendsDetailView;
 
+import java.util.Objects;
 import java.util.Random;
 
 // 15-05-2019 Luthfi Alfarisi 10116365 IF-8
 
 public class FriendsDetailActivity extends AppCompatActivity implements FriendsDetailView, View.OnClickListener {
 
+    Toolbar toolbar;
     ImageView imgAva;
     TextView tvName, tvNIM, tvClass, tvPhone, tvEmail, tvIg;
     FriendsDetailPresenter presenter;
@@ -28,6 +32,11 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_detail);
+
+        toolbar = findViewById(R.id.toolbarDetail);
+
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         presenter = new FriendsDetailPresenter(this);
 
@@ -91,5 +100,13 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
                 presenter.openInstagram();
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

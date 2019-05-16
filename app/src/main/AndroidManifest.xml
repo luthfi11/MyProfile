@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.FriendsDetailActivity"></activity>
+        <activity android:name=".activity.AddFriendsActivity"></activity>
+        <activity android:name=".activity.FriendsDetailActivity" />
         <activity
             android:name=".activity.SplashActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">

@@ -21,7 +21,6 @@
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <TextView
-                android:id="@+id/tv_toolbar_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/title_profile"
