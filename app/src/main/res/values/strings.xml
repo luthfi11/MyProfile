@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">My Profile</string>
+    <string name="app_name_2">My Profile Apps</string>
+    <string name="version">Version 1.0</string>
+    <string name="assignment">\"Aplikasi Komputasi Bergerak\" Course\'s Midtest Assignment, Universitas Komputer Indonesia</string>
     <string name="title_profile">Profile</string>
     <string name="title_contact">Contact</string>
     <string name="title_friends">Friends</string>
@@ -11,7 +14,9 @@
     <string name="my_name">Luthfi Alfarisi</string>
     <string name="my_nim">10116365</string>
     <string name="my_class">IF - 8</string>
-    <string name="my_desc">Iam Luthfi Alfarisi. I currently enrolled as bachelor of informatics engineering student at Universitas Komputer Indonesia. I am an information technology enthusiast, especially in programming, I have completed several IT certifications in the last year. I have strong technical and very excited in android programming with kotlin and web application, proven by several projects that I work on my Github account. And I am always enthusiastic to learn and undertake new challenges to grow and further improve my IT skills.</string>
+    <string name="major">Teknik Informatika</string>
+    <string name="university">Universitas Komputer Indonesia</string>
+    <string name="my_desc">I am Luthfi Alfarisi. I currently enrolled as bachelor of informatics engineering student at Universitas Komputer Indonesia. I am an information technology enthusiast, especially in programming, I have completed several IT certifications in the last year. I have strong technical and very excited in android programming with kotlin and web application, proven by several projects that I work on my Github account. And I am always enthusiastic to learn and undertake new challenges to grow and further improve my IT skills.</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="instagram">Instagram</string>
@@ -23,7 +28,6 @@
     <string name="nim">NIM</string>
     <string name="class_">Class</string>
     <string name="save">Save</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.luthfi.myprofile.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,16 +8,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.luthfi.myprofile.R;
-import com.luthfi.myprofile.activity.AddFriendsActivity;
-import com.luthfi.myprofile.activity.MainActivity;
+import com.luthfi.myprofile.activity.AddEditEditFriendsActivity;
 import com.luthfi.myprofile.adapter.FriendsAdapter;
-import com.luthfi.myprofile.model.FriendsData;
 import com.luthfi.myprofile.model.FriendsModel;
 import com.luthfi.myprofile.presenter.FriendsPresenter;
 import com.luthfi.myprofile.view.FriendsView;
@@ -31,15 +27,35 @@ import static com.luthfi.myprofile.model.FriendsData.getListData;
 
 public class FriendsFragment extends Fragment implements FriendsView, View.OnClickListener {
 
-    FriendsPresenter presenter;
     FriendsAdapter adapter;
+    ArrayList<FriendsModel> friends;
+    static FriendsPresenter presenter;
     RecyclerView rvFriends;
     FloatingActionButton fab;
-    ArrayList<FriendsModel> friends;
 
     @Override
     public void showFriendsList() {
         friends.addAll(getListData());
+    }
+
+    @Override
+    public void addFriend(FriendsModel fr) {
+        friends.add(0, fr);
+        adapter.setData(friends);
+    }
+
+    @Override
+    public void updateFriend(int pos, FriendsModel fr) {
+        friends.remove(pos);
+        friends.add(pos, fr);
+        adapter.setData(friends);
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void deleteFriend(int pos) {
+        friends.remove(pos);
+        adapter.notifyDataSetChanged();
     }
 
     public FriendsFragment() {
@@ -63,7 +79,7 @@ public class FriendsFragment extends Fragment implements FriendsView, View.OnCli
         super.onActivityCreated(savedInstanceState);
 
         friends = new ArrayList<>();
-        adapter = new FriendsAdapter(friends);
+        adapter = new FriendsAdapter(friends, getActivity());
         rvFriends.setHasFixedSize(true);
         rvFriends.setLayoutManager(new LinearLayoutManager(getContext()));
         rvFriends.setAdapter(adapter);
@@ -73,22 +89,24 @@ public class FriendsFragment extends Fragment implements FriendsView, View.OnCli
         fab.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent i = new Intent(getContext(), AddFriendsActivity.class);
-        startActivityForResult(i, 1);
+    public static void add(FriendsModel fr) {
+        presenter.add(fr);
+    }
+
+    public static void update(int pos, FriendsModel fr) {
+        presenter.update(pos, fr);
+    }
+
+    public static void delete(int pos) {
+        presenter.delete(pos);
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK) {
-                FriendsModel fr = data.getParcelableExtra("newFriend");
-                friends.add(fr);
-                adapter.setData(friends);
-            }
+    public void onClick(View v) {
+        if (v.getId() == R.id.fabAddFriends) {
+            Intent i = new Intent(getContext(), AddEditEditFriendsActivity.class);
+            i.putExtra("type", 0);
+            startActivity(i);
         }
     }
 }

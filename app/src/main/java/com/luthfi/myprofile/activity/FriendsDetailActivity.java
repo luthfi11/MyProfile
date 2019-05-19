@@ -5,12 +5,14 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.luthfi.myprofile.R;
+import com.luthfi.myprofile.fragment.FriendsFragment;
 import com.luthfi.myprofile.model.FriendsModel;
 import com.luthfi.myprofile.presenter.FriendsDetailPresenter;
 import com.luthfi.myprofile.view.FriendsDetailView;
@@ -48,18 +50,24 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
         tvEmail = findViewById(R.id.tvFriendEmail);
         tvIg = findViewById(R.id.tvFriendIg);
 
-        presenter.getFriendsDetail();
+        friends = getIntent().getParcelableExtra("friend");
+
     }
 
     @Override
-    public void showDetail() {
+    protected void onResume() {
+        super.onResume();
+
+        presenter.getFriendsDetail(friends);
+    }
+
+    @Override
+    public void showDetail(FriendsModel fr) {
         int[] ava = {R.drawable.ava1, R.drawable.ava2, R.drawable.ava3, R.drawable.ava4, R.drawable.ava5};
         Random ran = new Random();
         int i = ran.nextInt(ava.length);
 
         imgAva.setImageResource(ava[i]);
-
-        friends = getIntent().getParcelableExtra("friend");
 
         tvName.setText(friends.getName());
         tvNIM.setText(friends.getNim());
@@ -88,6 +96,12 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
     }
 
     @Override
+    public void deleteFriend(int position) {
+        FriendsFragment.delete(position);
+        finish();
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.lytPhone:
@@ -103,10 +117,37 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+        int pos = getIntent().getIntExtra("position", 99);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.nav_delete:
+                presenter.removeFriend(pos);
+                break;
+            case R.id.nav_edit:
+                Intent i = new Intent(FriendsDetailActivity.this, AddEditEditFriendsActivity.class);
+                i.putExtra("pos", pos);
+                i.putExtra("type", 1);
+                i.putExtra("friend", friends);
+                startActivityForResult(i, 1);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        friends = data.getParcelableExtra("newData");
     }
 }

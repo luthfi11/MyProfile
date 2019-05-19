@@ -1,5 +1,6 @@
 package com.luthfi.myprofile.presenter;
 
+import com.luthfi.myprofile.model.FriendsModel;
 import com.luthfi.myprofile.view.FriendsDetailView;
 
 // 15-05-2019 Luthfi Alfarisi 10116365 IF-8
@@ -12,8 +13,8 @@ public class FriendsDetailPresenter {
         this.view = view;
     }
 
-    public void getFriendsDetail() {
-        view.showDetail();
+    public void getFriendsDetail(FriendsModel fr) {
+        view.showDetail(fr);
     }
 
     public void makeCall() {
@@ -26,5 +27,9 @@ public class FriendsDetailPresenter {
 
     public void openInstagram() {
         view.actionInstagram();
+    }
+
+    public void removeFriend(int position) {
+        view.deleteFriend(position);
     }
 }

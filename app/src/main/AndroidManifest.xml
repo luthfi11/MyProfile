@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.AddFriendsActivity"></activity>
+        <activity android:name=".activity.AddEditEditFriendsActivity"/>
         <activity android:name=".activity.FriendsDetailActivity" />
         <activity
             android:name=".activity.SplashActivity"
@@ -23,6 +23,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/app_name" />
     </application>
 

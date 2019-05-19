@@ -12,6 +12,10 @@ public class MainPresenter {
         this.view = view;
     }
 
+    public void addView() {
+        view.addView();
+    }
+
     public void changeView(Fragment fragment) {
         view.showView(fragment);
     }
