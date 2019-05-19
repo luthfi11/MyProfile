@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.luthfi.myprofile.R;
 import com.luthfi.myprofile.fragment.FriendsFragment;
@@ -22,6 +23,7 @@ import java.util.Objects;
 public class AddEditEditFriendsActivity extends AppCompatActivity implements AddEditFriendsView {
 
     Toolbar toolbar;
+    TextView tvTitle;
     EditText etName, etNIM, etClass, etPhone, etEmail, etIG;
     AddEditFriendsPresenter presenter;
     int type;
@@ -37,6 +39,7 @@ public class AddEditEditFriendsActivity extends AppCompatActivity implements Add
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        tvTitle = findViewById(R.id.tvTitle);
         etName = findViewById(R.id.etName);
         etNIM = findViewById(R.id.etNIM);
         etClass = findViewById(R.id.etClass);
@@ -101,6 +104,8 @@ public class AddEditEditFriendsActivity extends AppCompatActivity implements Add
 
     @Override
     public void showData() {
+        tvTitle.setText("Edit Friend");
+
         FriendsModel f = getIntent().getParcelableExtra("friend");
         etName.setText(f.getName());
         etNIM.setText(f.getNim());

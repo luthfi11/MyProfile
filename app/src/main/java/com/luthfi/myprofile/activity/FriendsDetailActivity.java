@@ -1,5 +1,6 @@
 package com.luthfi.myprofile.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -148,6 +149,10 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        friends = data.getParcelableExtra("newData");
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK) {
+                friends = data.getParcelableExtra("newData");
+            }
+        }
     }
 }
