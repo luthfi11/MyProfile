@@ -23,10 +23,6 @@ public class AboutFragmentManager extends Fragment {
     ViewPager viewPager;
     TabLayout tab;
 
-    public static AboutFragmentManager newInstance() {
-        return new AboutFragmentManager();
-    }
-
     public AboutFragmentManager() {
         // Required empty public constructor
     }

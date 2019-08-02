@@ -1,15 +1,22 @@
-package com.luthfi.myprofile.model;
-
-// 14-05-2019 Luthfi Alfarisi 10116365 IF-8
-
+package com.luthfi.myprofile.data.model;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
-public class FriendsModel implements Parcelable {
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
-    private String name, nim, class_, phone, email, ig;
+@Entity(tableName = "friends")
+public class Friends implements Parcelable {
 
-    public FriendsModel(String name, String nim, String class_, String phone, String email, String ig) {
+    @PrimaryKey
+    @NonNull
+    private String nim;
+
+    private String name, class_, phone, email, ig;
+
+    public Friends(String name, String nim, String class_, String phone, String email, String ig) {
         this.name = name;
         this.nim = nim;
         this.class_ = class_;
@@ -18,7 +25,7 @@ public class FriendsModel implements Parcelable {
         this.ig = ig;
     }
 
-    protected FriendsModel(Parcel in) {
+    protected Friends(Parcel in) {
         name = in.readString();
         nim = in.readString();
         class_ = in.readString();
@@ -27,15 +34,15 @@ public class FriendsModel implements Parcelable {
         ig = in.readString();
     }
 
-    public static final Creator<FriendsModel> CREATOR = new Creator<FriendsModel>() {
+    public static final Creator<Friends> CREATOR = new Creator<Friends>() {
         @Override
-        public FriendsModel createFromParcel(Parcel in) {
-            return new FriendsModel(in);
+        public Friends createFromParcel(Parcel in) {
+            return new Friends(in);
         }
 
         @Override
-        public FriendsModel[] newArray(int size) {
-            return new FriendsModel[size];
+        public Friends[] newArray(int size) {
+            return new Friends[size];
         }
     };
 

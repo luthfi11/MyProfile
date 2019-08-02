@@ -1,6 +1,5 @@
 package com.luthfi.myprofile.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,11 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.luthfi.myprofile.R;
 import com.luthfi.myprofile.activity.FriendsDetailActivity;
-import com.luthfi.myprofile.model.FriendsModel;
+import com.luthfi.myprofile.data.model.Friends;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,15 +21,15 @@ import java.util.Random;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>  {
 
-    private ArrayList<FriendsModel> friends;
+    private ArrayList<Friends> friends;
     private Context context;
 
-    public FriendsAdapter(ArrayList<FriendsModel> friends, Context context) {
+    public FriendsAdapter(ArrayList<Friends> friends, Context context) {
         this.friends = friends;
         this.context = context;
     }
 
-    public void setData(ArrayList<FriendsModel> items) {
+    public void setData(ArrayList<Friends> items) {
         this.friends = items;
         notifyDataSetChanged();
     }
@@ -53,7 +51,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         viewHolder.tvName.setText(friends.get(i).getName());
         viewHolder.tvNIM.setText(friends.get(i).getNim());
 
-        final FriendsModel item = friends.get(i);
+        final Friends item = friends.get(i);
         final int pos = i;
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

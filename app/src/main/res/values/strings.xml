@@ -30,4 +30,18 @@
     <string name="save">Save</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="login">Login</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_an_account">Don\'t have an account ?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="edit_friend">Edit Friend</string>
+    <string name="login_failed_msg">Login failed, Username or password is wrong !</string>
+    <string name="sign_up_failed_msg">Sign up failed, Username already used !</string>
+    <string name="title_home">Home</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="welcome_you_logged_in_as">Welcome, You logged in as :</string>
 </resources>

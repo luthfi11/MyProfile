@@ -1,12 +1,11 @@
 package com.luthfi.myprofile.view;
 
-// 14-05-2019 Luthfi Alfarisi 10116365 IF-8
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
-import com.luthfi.myprofile.model.FriendsModel;
+import com.luthfi.myprofile.data.model.Friends;
+
+import java.util.List;
 
 public interface FriendsView {
-    void showFriendsList();
-    void addFriend(FriendsModel fr);
-    void updateFriend(int pos, FriendsModel fr);
-    void deleteFriend(int pos);
+    void showFriendsList(List<Friends> friends);
 }

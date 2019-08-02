@@ -15,55 +15,32 @@ import android.view.ViewGroup;
 import com.luthfi.myprofile.R;
 import com.luthfi.myprofile.activity.AddEditEditFriendsActivity;
 import com.luthfi.myprofile.adapter.FriendsAdapter;
-import com.luthfi.myprofile.model.FriendsModel;
+import com.luthfi.myprofile.data.model.Friends;
 import com.luthfi.myprofile.presenter.FriendsPresenter;
 import com.luthfi.myprofile.view.FriendsView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static com.luthfi.myprofile.model.FriendsData.getListData;
-
-// 14-05-2019 Luthfi Alfarisi 10116365 IF-8
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
 public class FriendsFragment extends Fragment implements FriendsView, View.OnClickListener {
 
     FriendsAdapter adapter;
-    ArrayList<FriendsModel> friends;
+    ArrayList<Friends> friends;
     static FriendsPresenter presenter;
     RecyclerView rvFriends;
     FloatingActionButton fab;
-
-    @Override
-    public void showFriendsList() {
-        friends.addAll(getListData());
-    }
-
-    @Override
-    public void addFriend(FriendsModel fr) {
-        friends.add(0, fr);
-        adapter.setData(friends);
-    }
-
-    @Override
-    public void updateFriend(int pos, FriendsModel fr) {
-        friends.remove(pos);
-        friends.add(pos, fr);
-        adapter.setData(friends);
-        adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void deleteFriend(int pos) {
-        friends.remove(pos);
-        adapter.notifyDataSetChanged();
-    }
 
     public FriendsFragment() {
         // Required empty public constructor
     }
 
-    public static FriendsFragment newInstance() {
-        return new FriendsFragment();
+    @Override
+    public void showFriendsList(List<Friends> friends) {
+        this.friends.clear();
+        this.friends.addAll(friends);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -83,22 +60,11 @@ public class FriendsFragment extends Fragment implements FriendsView, View.OnCli
         rvFriends.setHasFixedSize(true);
         rvFriends.setLayoutManager(new LinearLayoutManager(getContext()));
         rvFriends.setAdapter(adapter);
-        presenter = new FriendsPresenter(this);
-        presenter.setFriendsList();
+
+        presenter = new FriendsPresenter(getContext(),this);
+        presenter.setFriendsList(this);
 
         fab.setOnClickListener(this);
-    }
-
-    public static void add(FriendsModel fr) {
-        presenter.add(fr);
-    }
-
-    public static void update(int pos, FriendsModel fr) {
-        presenter.update(pos, fr);
-    }
-
-    public static void delete(int pos) {
-        presenter.delete(pos);
     }
 
     @Override

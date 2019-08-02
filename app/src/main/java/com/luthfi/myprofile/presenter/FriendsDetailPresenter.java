@@ -1,19 +1,24 @@
 package com.luthfi.myprofile.presenter;
 
-import com.luthfi.myprofile.model.FriendsModel;
+import android.content.Context;
+
+import com.luthfi.myprofile.data.model.Friends;
+import com.luthfi.myprofile.data.repo.FriendsRepository;
 import com.luthfi.myprofile.view.FriendsDetailView;
 
-// 15-05-2019 Luthfi Alfarisi 10116365 IF-8
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
 public class FriendsDetailPresenter {
 
     private FriendsDetailView view;
+    private FriendsRepository repo;
 
-    public FriendsDetailPresenter(FriendsDetailView view) {
+    public FriendsDetailPresenter(Context context, FriendsDetailView view) {
         this.view = view;
+        repo = new FriendsRepository(context);
     }
 
-    public void getFriendsDetail(FriendsModel fr) {
+    public void getFriendsDetail(Friends fr) {
         view.showDetail(fr);
     }
 
@@ -29,7 +34,8 @@ public class FriendsDetailPresenter {
         view.actionInstagram();
     }
 
-    public void removeFriend(int position) {
-        view.deleteFriend(position);
+    public void removeFriend(Friends friend) {
+        repo.deleteFriend(friend);
+        view.onFriendDeleted();
     }
 }

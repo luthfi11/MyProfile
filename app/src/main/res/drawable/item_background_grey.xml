@@ -5,21 +5,13 @@
         <shape android:shape="rectangle"
             android:dither="true">
             <solid android:color="@android:color/white" />
-
-            <size
-                android:width="0dp"
-                android:height="0dp"/>
         </shape>
     </item>
 
     <item android:state_pressed="true">
         <shape android:shape="rectangle"
             android:dither="true">
-            <solid android:color="@color/colorMuted" />
-
-            <size
-                android:width="0dp"
-                android:height="0dp"/>
+            <solid android:color="@color/colorSemiWhite" />
         </shape>
     </item>
 </selector>

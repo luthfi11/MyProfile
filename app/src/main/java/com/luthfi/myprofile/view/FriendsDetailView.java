@@ -1,13 +1,13 @@
 package com.luthfi.myprofile.view;
 
-// 15-05-2019 Luthfi Alfarisi 10116365 IF-8
+import com.luthfi.myprofile.data.model.Friends;
 
-import com.luthfi.myprofile.model.FriendsModel;
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
 public interface FriendsDetailView {
-    void showDetail(FriendsModel fr);
+    void showDetail(Friends fr);
     void actionCall();
     void actionEmail();
     void actionInstagram();
-    void deleteFriend(int position);
+    void onFriendDeleted();
 }

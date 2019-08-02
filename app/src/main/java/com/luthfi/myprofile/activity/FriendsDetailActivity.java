@@ -3,25 +3,25 @@ package com.luthfi.myprofile.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.luthfi.myprofile.R;
-import com.luthfi.myprofile.fragment.FriendsFragment;
-import com.luthfi.myprofile.model.FriendsModel;
+import com.luthfi.myprofile.data.model.Friends;
 import com.luthfi.myprofile.presenter.FriendsDetailPresenter;
 import com.luthfi.myprofile.view.FriendsDetailView;
 
 import java.util.Objects;
 import java.util.Random;
 
-// 15-05-2019 Luthfi Alfarisi 10116365 IF-8
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
 public class FriendsDetailActivity extends AppCompatActivity implements FriendsDetailView, View.OnClickListener {
 
@@ -29,20 +29,22 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
     ImageView imgAva;
     TextView tvName, tvNIM, tvClass, tvPhone, tvEmail, tvIg;
     FriendsDetailPresenter presenter;
-    FriendsModel friends;
+    Friends friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_detail);
-
-        toolbar = findViewById(R.id.toolbarDetail);
-
+        initView();
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        presenter = new FriendsDetailPresenter(this);
+        presenter = new FriendsDetailPresenter(this, this);
+        friends = getIntent().getParcelableExtra("friend");
+    }
 
+    private void initView() {
+        toolbar = findViewById(R.id.toolbarDetail);
         imgAva = findViewById(R.id.imgFriendAva);
         tvName = findViewById(R.id.tvFriendName);
         tvNIM = findViewById(R.id.tvFriendNIM);
@@ -50,20 +52,23 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
         tvPhone = findViewById(R.id.tvFriendPhone);
         tvEmail = findViewById(R.id.tvFriendEmail);
         tvIg = findViewById(R.id.tvFriendIg);
+    }
 
-        friends = getIntent().getParcelableExtra("friend");
+    private String data(String value) {
+        String newValue = "N/A";
+        if (!value.isEmpty()) newValue = value;
 
+        return newValue;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         presenter.getFriendsDetail(friends);
     }
 
     @Override
-    public void showDetail(FriendsModel fr) {
+    public void showDetail(Friends fr) {
         int[] ava = {R.drawable.ava1, R.drawable.ava2, R.drawable.ava3, R.drawable.ava4, R.drawable.ava5};
         Random ran = new Random();
         int i = ran.nextInt(ava.length);
@@ -73,32 +78,39 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
         tvName.setText(friends.getName());
         tvNIM.setText(friends.getNim());
         tvClass.setText(friends.getClass_());
-        tvPhone.setText(friends.getPhone());
-        tvEmail.setText(friends.getEmail());
-        tvIg.setText(friends.getIg());
+
+        tvPhone.setText(data(friends.getPhone()));
+        tvEmail.setText(data(friends.getEmail()));
+        tvIg.setText(data(friends.getIg()));
     }
 
     @Override
     public void actionCall() {
-        Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", friends.getPhone(), null));
-        startActivity(i);
+        if (!friends.getPhone().isEmpty()) {
+            Intent i = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", friends.getPhone(), null));
+            startActivity(i);
+        }
     }
 
     @Override
     public void actionEmail() {
-        Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + friends.getEmail()));
-        startActivity(i);
+        if (!friends.getEmail().isEmpty()) {
+            Intent i = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + friends.getEmail()));
+            startActivity(i);
+        }
     }
 
     @Override
     public void actionInstagram() {
-        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://instagram.com/" + friends.getIg().replace("@", "")));
-        startActivity(i);
+        if (!friends.getIg().isEmpty()) {
+            Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://instagram.com/" + friends.getIg().replace("@", "")));
+            startActivity(i);
+        }
     }
 
     @Override
-    public void deleteFriend(int position) {
-        FriendsFragment.delete(position);
+    public void onFriendDeleted() {
+        Toast.makeText(this, "Friend Deleted", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -125,17 +137,15 @@ public class FriendsDetailActivity extends AppCompatActivity implements FriendsD
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int pos = getIntent().getIntExtra("position", 99);
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
             case R.id.nav_delete:
-                presenter.removeFriend(pos);
+                presenter.removeFriend(friends);
                 break;
             case R.id.nav_edit:
                 Intent i = new Intent(FriendsDetailActivity.this, AddEditEditFriendsActivity.class);
-                i.putExtra("pos", pos);
                 i.putExtra("type", 1);
                 i.putExtra("friend", friends);
                 startActivityForResult(i, 1);

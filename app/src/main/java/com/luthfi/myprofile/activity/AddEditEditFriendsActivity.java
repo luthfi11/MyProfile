@@ -2,23 +2,24 @@ package com.luthfi.myprofile.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.luthfi.myprofile.R;
-import com.luthfi.myprofile.fragment.FriendsFragment;
-import com.luthfi.myprofile.model.FriendsModel;
+import com.luthfi.myprofile.data.model.Friends;
 import com.luthfi.myprofile.presenter.AddEditFriendsPresenter;
 import com.luthfi.myprofile.view.AddEditFriendsView;
 
 import java.util.Objects;
 
-// 16-05-2019 Luthfi Alfarisi 10116365 IF-8
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
 public class AddEditEditFriendsActivity extends AppCompatActivity implements AddEditFriendsView {
 
@@ -29,16 +30,61 @@ public class AddEditEditFriendsActivity extends AppCompatActivity implements Add
     int type;
 
     @Override
+    public void showData() {
+        tvTitle.setText(getResources().getString(R.string.edit_friend));
+
+        Friends f = getIntent().getParcelableExtra("friend");
+        etName.setText(f.getName());
+        etNIM.setText(f.getNim());
+        etClass.setText(f.getClass_());
+        etPhone.setText(f.getPhone());
+        etEmail.setText(f.getEmail());
+        etIG.setText(f.getIg());
+    }
+
+    @Override
+    public void onFriendAdded() {
+        Toast.makeText(this, "Friend Added", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onFriendUpdated(Friends friend) {
+        Intent i = new Intent();
+        i.putExtra("newData", friend);
+        setResult(Activity.RESULT_OK, i);
+
+        Toast.makeText(this, "Friend Updated", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void showError(EditText et) {
+        et.requestFocus();
+        et.setError("Please Fill This Box !");
+    }
+
+    @Override
+    public void showFailed(String msg) {
+        Snackbar.make(etNIM, msg, Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_friends);
-
-        presenter = new AddEditFriendsPresenter(this);
-
-        toolbar = findViewById(R.id.toolbarAddFriends);
+        initView();
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
+        type = getIntent().getIntExtra("type", 0);
+
+        presenter = new AddEditFriendsPresenter(this, this);
+        presenter.isEdit(type);
+    }
+
+    private void initView() {
+        toolbar = findViewById(R.id.toolbarAddFriends);
         tvTitle = findViewById(R.id.tvTitle);
         etName = findViewById(R.id.etName);
         etNIM = findViewById(R.id.etNIM);
@@ -46,10 +92,6 @@ public class AddEditEditFriendsActivity extends AppCompatActivity implements Add
         etPhone = findViewById(R.id.etPhone);
         etEmail = findViewById(R.id.etEmail);
         etIG = findViewById(R.id.etIG);
-
-        type = getIntent().getIntExtra("type", 0);
-
-        presenter.isEdit(type);
     }
 
     @Override
@@ -66,7 +108,7 @@ public class AddEditEditFriendsActivity extends AppCompatActivity implements Add
                 break;
 
             case R.id.nav_done:
-                FriendsModel friend = new FriendsModel(
+                Friends friend = new Friends(
                         etName.getText().toString(),
                         etNIM.getText().toString(),
                         etClass.getText().toString(),
@@ -79,60 +121,16 @@ public class AddEditEditFriendsActivity extends AppCompatActivity implements Add
                     if (!etNIM.getText().toString().isEmpty()) {
                         if (!etClass.getText().toString().isEmpty()) {
 
-                            if (type == 0) {
-                                presenter.addFriend(friend);
-                            } else {
-                                int pos = getIntent().getIntExtra("pos", 99);
-                                presenter.updateFriend(pos, friend);
-                            }
+                            if (type == 0) presenter.addFriend(friend);
+                            else presenter.updateFriend(friend);
 
-                        } else {
-                            presenter.setError(etClass);
-                        }
-                    } else {
-                        presenter.setError(etNIM);
-                    }
-                } else {
-                    presenter.setError(etName);
-                }
-
+                        } else presenter.setError(etClass);
+                    } else presenter.setError(etNIM);
+                } else presenter.setError(etName);
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void showData() {
-        tvTitle.setText("Edit Friend");
-
-        FriendsModel f = getIntent().getParcelableExtra("friend");
-        etName.setText(f.getName());
-        etNIM.setText(f.getNim());
-        etClass.setText(f.getClass_());
-        etPhone.setText(f.getPhone());
-        etEmail.setText(f.getEmail());
-        etIG.setText(f.getIg());
-    }
-
-    @Override
-    public void addData(FriendsModel friends) {
-        FriendsFragment.add(friends);
-        finish();
-    }
-
-    @Override
-    public void updateData(int pos, FriendsModel fr) {
-        FriendsFragment.update(pos, fr);
-        Intent i = new Intent();
-        i.putExtra("newData", fr);
-        setResult(Activity.RESULT_OK, i);
-        finish();
-    }
-
-    @Override
-    public void showError(EditText et) {
-        et.requestFocus();
-        et.setError("Please Fill This Box !");
-    }
 }

@@ -1,18 +1,22 @@
 package com.luthfi.myprofile.presenter;
 
+import android.content.Context;
 import android.widget.EditText;
 
-import com.luthfi.myprofile.model.FriendsModel;
+import com.luthfi.myprofile.data.model.Friends;
+import com.luthfi.myprofile.data.repo.FriendsRepository;
 import com.luthfi.myprofile.view.AddEditFriendsView;
 
-// 16-05-2019 Luthfi Alfarisi 10116365 IF-8
+// 02-08-2019 Luthfi Alfarisi 10116365 IF-8
 
 public class AddEditFriendsPresenter {
 
+    private FriendsRepository repo;
     private AddEditFriendsView view;
 
-    public AddEditFriendsPresenter(AddEditFriendsView view) {
+    public AddEditFriendsPresenter(Context context, AddEditFriendsView view) {
         this.view = view;
+        repo = new FriendsRepository(context);
     }
 
     public void isEdit(int type) {
@@ -21,12 +25,22 @@ public class AddEditFriendsPresenter {
         }
     }
 
-    public void addFriend(FriendsModel friend) {
-        view.addData(friend);
+    public void addFriend(Friends friend) {
+        try {
+            repo.insertFriend(friend);
+            view.onFriendAdded();
+        } catch (Exception ex) {
+            view.showFailed("Failed to add friend, NIM "+friend.getNim()+" already used");
+        }
     }
 
-    public void updateFriend(int pos, FriendsModel fr) {
-        view.updateData(pos, fr);
+    public void updateFriend(Friends friend) {
+        try {
+            repo.updateFriend(friend);
+            view.onFriendUpdated(friend);
+        } catch (Exception ex) {
+            view.showFailed("Failed to update friend, NIM "+friend.getNim()+" already used");
+        }
     }
 
     public void setError(EditText et) {
